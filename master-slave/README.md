@@ -6,8 +6,8 @@
       docker-compose up -d
 
   
-- 进入获取启动同步master_log_file 和 master_log_pos 
-  
+- 进入获取启动同步master_log_file 和 master_log_pos
+
     
 
 
