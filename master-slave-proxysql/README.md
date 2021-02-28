@@ -82,6 +82,19 @@
 
 ### 检测使用读写分类
 
+ 配置 `proxysql`
+
+        mysql -u admin2 -padmin2 -h 127.0.0.1 -P60320
+
+
+执行SQL
+
+    INSERT INTO mysql_users(username, password, default_hostgroup) VALUES ('test', '123456', 2);
+
+    SELECT * FROM mysql_users;
+    LOAD MYSQL USERS TO RUNTIME;
+    SAVE MYSQL USERS TO DISK;
+
 安装 sysbench
 
 
@@ -99,6 +112,8 @@
 
     
     mysql -u admin2 -padmin2 -h 127.0.0.1 -P60320
+
+    
 
     select * from stats_mysql_query_digest  \G;
 
