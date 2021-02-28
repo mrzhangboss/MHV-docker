@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mysql_master:
+    image: mysql:5.7
+    hostname: master
+    volumes:
+      - ./mysqld_master.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./master_init.sql:/docker-entrypoint-initdb.d/master_init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+  mysql_slave:
+    image: mysql:5.7
+    depends_on:
+      - mysql_master
+    links:
+      - 'mysql_master:master'
+    hostname: slave
+    volumes:
+      - ./mysqld_slave.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./slave_init.sql:/docker-entrypoint-initdb.d/slave_init.sql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+
+
+
+
+
