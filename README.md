@@ -1,4 +1,4 @@
-# MySQL 主主备份已经主从备份 Docker 搭建
+# MySQL 主主备份已及主从备份 Docker 搭建
 
 
 ## 主从
