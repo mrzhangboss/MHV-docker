@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mysql_master:
+    image: mysql:5.7
+    hostname: master
+    volumes:
+      - ./mysqld_master.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./master_init.sql:/docker-entrypoint-initdb.d/master_init.sql
+    env_file:
+      - mysql.env
+
+
+  mysql_master2:
+    image: mysql:5.7
+    hostname: master2
+    volumes:
+      - ./mysqld_master2.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./master_init.sql:/docker-entrypoint-initdb.d/master_init.sql
+    env_file:
+      - mysql.env
+
+
+
+  proxy:
+    image: breeze2/proxysql:1.4.3
+    container_name: proxysql
+    depends_on:
+      - mysql_master
+      - mysql_master2
+    links:
+      - 'mysql_master:master'
+      - 'mysql_master2:master2'
+    restart: always
+    ports:
+      - "127.0.0.1:60320:6032"
+      - "60330:6033"
+    volumes:
+      - "./proxy.cnf:/etc/proxysql/pr.cnf"
+    entrypoint: "proxysql -f -c /etc/proxysql/pr.cnf"
+
+
+
+
+

@@ -10,3 +10,5 @@
 ## 主主
 
 [MySQL主主搭建](master-master/README.md)
+
+[MySQL双主（使用ProxySQL进行负载均衡）](master-master-proxysql/README.md)
