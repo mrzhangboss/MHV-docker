@@ -1,0 +1,47 @@
+version: '3'
+services:
+  mysql_master:
+    image: mysql:5.7
+    hostname: master
+    volumes:
+      - ./mysqld_master.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./master_init.sql:/docker-entrypoint-initdb.d/master_init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+  mysql_slave:
+    image: mysql:5.7
+    depends_on:
+      - mysql_master
+    links:
+      - 'mysql_master:master'
+    hostname: slave
+    volumes:
+      - ./mysqld_slave.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./slave_init.sql:/docker-entrypoint-initdb.d/slave_init.sql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+
+  proxy:
+    image: breeze2/proxysql:1.4.3
+    container_name: proxysql
+    depends_on:
+      - mysql_master
+      - mysql_slave
+    links:
+      - 'mysql_master:master'
+      - 'mysql_slave:slave'
+    restart: always
+    ports:
+      - "127.0.0.1:60320:6032"
+      - "60330:6033"
+    volumes:
+      - "./proxy.cnf:/etc/proxysql/pr.cnf"
+    entrypoint: "proxysql -f -c /etc/proxysql/pr.cnf"
+
+
+
+
+
