@@ -5,14 +5,12 @@
 
       docker-compose up -d
 
-- 进入 master 获取 log 位置
-
-
   
-- 进入获取启动同步master_log_file 和 master_log_pos
+- 进入获取启动同步master_log_file 和 master_log_pos 
   
-
+    
     docker exec -it master-slave_mysql_master_1 /bin/bash -c "mysql -uroot -p123456 -e 'show master status;'"
+
 
 - 执行同步
   
