@@ -12,6 +12,8 @@
     docker exec -it master-slave_mysql_master_1 /bin/bash -c "mysql -uroot -p123456 -e 'show master status;'"
 
 
+
+
 - 执行同步
   
   进入容器
